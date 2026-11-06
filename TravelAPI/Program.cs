@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-// 1. CORS Policy එක මෙතැනින් එකතු කරන්න (builder.Build() ට ඉහළින්)
+// CORS Policy එක
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
@@ -12,20 +12,22 @@ builder.Services.AddCors(options =>
                         .AllowAnyMethod());
 });
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+// Learn more about configuring Swagger at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-// 2. CORS Middleware එක මෙතැනින් සක්‍රිය කරන්න (UseAuthorization ට ඉහළින්)
+// CORS Middleware එක (UseAuthorization ට ඉහළින්)
 app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
