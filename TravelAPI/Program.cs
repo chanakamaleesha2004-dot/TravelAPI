@@ -19,11 +19,12 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Production වලදීත් Swagger වැඩ කිරීමට IsDevelopment ඉවත් කරන ලදී
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TravelAPI v1");
+});
 
 app.UseHttpsRedirection();
 
